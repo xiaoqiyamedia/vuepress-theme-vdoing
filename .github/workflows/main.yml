@@ -38,15 +38,23 @@ jobs:
         run: npm run build
       
       # 上传dist包
-      - name: copy dist file with scp
-        uses: appleboy/scp-action@v0.0.1
+      #- name: copy dist file with scp
+        #uses: appleboy/scp-action@v0.0.1
+        #with:
+          #host: ${{ secrets.HOST }}
+          #username: ${{ secrets.USERNAME }}
+          #password: ${{ secrets.PASSWORD }}
+          #port: ${{ secrets.PORT }}
+          #source: "docs/"
+          #target: "${{secrets.TARGET}}"
+          
+      # 上传到github page
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          source: "docs/"
-          target: "${{secrets.TARGET}}"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
         
         
       
