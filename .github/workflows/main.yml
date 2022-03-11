@@ -45,16 +45,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "docs/"
+          source: "dost/"
           target: ${{ secrets.TARGET }}
           
-      # 上传到github page
-      #- name: deploy
-        #uses: peaceiris/actions-gh-pages@v3
-        #if: ${{ github.ref == 'refs/heads/main' }}
-        #with:
-          #github_token: ${{ secrets.TOKEN }}
-          #publish_dir: ./dist
         
         
       
