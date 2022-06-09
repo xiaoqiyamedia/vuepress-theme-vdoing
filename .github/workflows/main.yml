@@ -14,39 +14,27 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-and-deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
 
-      # 安装node服务
-      - name: install nodejs
-        uses: actions/setup-node@v3.0.0
-        with: 
-          node-version: "14.x"
-      
-      # 安装依赖
-      - name: install dep
-        run: npm install
-      
-      # 打包
-      - name: build app 
-        run: npm run build
-      
-      # 上传dist包
-      - name: copy dist file with scp
-        uses: appleboy/scp-action@v0.0.1
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          source: "dost/"
-          target: ${{ secrets.TARGET }}
+      - name: Build and Deploy
+        uses: jenkey2011/vuepress-deploy@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          # 你要操作的目标仓库
+          TARGET_REPO: xiaoqiyamedia/note
+          # 构建结果存储的分支
+          TARGET_BRANCH: gh_pages
+          # 要使用的构建命令
+          BUILD_SCRIPT: yarn && yarn build
+          # 构建结果存储目录
+          BUILD_DIR: docs/.vuepress/dist/
           
         
         
